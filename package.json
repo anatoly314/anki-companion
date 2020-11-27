@@ -7,7 +7,6 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0",
     "dev": "quasar dev -m electron"
   },
   "dependencies": {
@@ -15,7 +14,9 @@
     "axios": "^0.18.1",
     "core-js": "^3.6.5",
     "quasar": "^1.0.0",
-    "vue-i18n": "^8.0.0"
+    "vue-i18n": "^8.0.0",
+    "epubjs": "^0.3.88",
+    "pify": "^5.0.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",

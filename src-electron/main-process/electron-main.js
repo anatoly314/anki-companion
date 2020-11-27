@@ -1,4 +1,5 @@
-import { app, BrowserWindow, nativeTheme } from 'electron'
+import { app, BrowserWindow, Menu, nativeTheme } from 'electron';
+import { createMenuTemplate } from '../menu.js';
 
 try {
   if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
@@ -14,7 +15,17 @@ if (process.env.PROD) {
   global.__statics = __dirname
 }
 
-let mainWindow
+let mainWindow;
+let menu;
+
+function __changeModeCallback (mode) {
+  const navigationRequest = {
+    name: mode.__route
+  };
+
+  menu.getMenuItemById('file-open-epub').enabled = mode.__route === 'epub';
+  mainWindow.webContents.send('route-change-request', navigationRequest);
+}
 
 function createWindow () {
   /**
@@ -28,7 +39,7 @@ function createWindow () {
       // Change from /quasar.conf.js > electron > nodeIntegration;
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: process.env.QUASAR_NODE_INTEGRATION,
-      nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION,
+      nodeIntegrationInWorker: process.env.QUASAR_NODE_INTEGRATION
 
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
@@ -40,6 +51,10 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  const menuTemplate = createMenuTemplate(__changeModeCallback);
+  menu = Menu.buildFromTemplate(menuTemplate)
+  Menu.setApplicationMenu(menu)
 }
 
 app.on('ready', createWindow)
