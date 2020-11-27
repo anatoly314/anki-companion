@@ -53,10 +53,10 @@ import RouterLink from 'components/RouterLink.vue'
 
 const linksData = [
   {
-    title: 'Index',
-    caption: 'Index page',
+    title: 'Markdown',
+    caption: 'Markdown page',
     icon: 'school',
-    link: 'index'
+    link: 'markdown'
   },
   {
     title: 'Epub',

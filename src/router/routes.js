@@ -3,20 +3,20 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    redirect: '/epub',
     children: [
       {
-        path: '',
-        component: () => import('pages/Index.vue')
+        path: 'epub',
+        name: 'epub',
+        component: () => import('pages/Epub.vue')
       },
       {
-        path: 'epub',
-        component: () => import('pages/Epub.vue')
+        path: 'markdown',
+        name: 'markdown',
+        component: () => import('pages/Markdown.vue')
       }
     ]
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
   {
     path: '*',
     component: () => import('pages/Error404.vue')
