@@ -1,10 +1,11 @@
 <template>
-  <q-page class='flex flex-center'>
-    <div ref='bookarea' id='bookarea'></div>
-    <div class='book-controls'>
-      <button @click='expose'>Expose</button>
-      <button @click='next'>Next</button>
+  <q-page class='flex flex-center' style="height: 100%;">
+    <div ref="bookarea" id="bookarea"></div>
+    <div class="book-controls">
+      <button @click="expose">Expose</button>
+      <button @click="next">Next</button>
     </div>
+    <slot name="footer"></slot>
   </q-page>
 </template>
 
@@ -22,9 +23,13 @@ export default {
   },
   methods: {
     expose () {
-      console.log('rendition', this.rendition);
-      console.log('book', this.book);
-      console.log('displayed', this.displayed);
+      console.log(
+        this.$refs.bookarea.clientWidth,
+        this.$refs.bookarea.clientHeight
+      )
+      // console.log('rendition', this.rendition);
+      // console.log('book', this.book);
+      // console.log('displayed', this.displayed);
     },
     next () {
       this.rendition.next();
@@ -51,12 +56,14 @@ export default {
       });
     },
     createBook (event, data) {
+      console.log(event, data);
       const fileData = data.fileData;
       if (this.book) {
         this.book.destroy();
       }
       this.book = ePub();
       this.book.open(fileData, 'binary');
+      console.log(this.$refs.bookarea);
       this.rendition = this.book.renderTo('bookarea', {
         width: this.$refs.bookarea.clientWidth + 'px',
         height: this.$refs.bookarea.clientHeight + 'px',
@@ -75,6 +82,31 @@ export default {
         this.rendition.resize(width, height);
       }
     }
+  },
+  mounted () {
+    console.log('mounted');
+    window.ipcRenderer.on('open-file-reply', this.createBook);
+    window.addEventListener('resize', this.resizeBook);
+  },
+  beforeDestroy () {
+    console.log('beforeDestroy');
+    window.ipcRenderer.removeListener('open-file-reply', this.createBook);
+    // Unregister the event listener before destroying this Vue instance
+    window.removeEventListener('resize', this.resizeBook);
   }
 }
 </script>
+
+<style scoped>
+#bookarea{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.book-controls{
+  background-color: red;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+</style>

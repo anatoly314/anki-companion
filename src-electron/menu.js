@@ -2,7 +2,7 @@ import { app } from 'electron'
 
 import { openBook } from './file-actions';
 
-export function createMenuTemplate (changeModeCallback) {
+export function createMenuTemplate (changeModeCallback, changeViewCallback) {
   const mainMenuTemplate = [
     // Each object is a dropdown
     {
@@ -38,6 +38,14 @@ export function createMenuTemplate (changeModeCallback) {
         click: changeModeCallback,
         __route: 'markdown'
 
+      }]
+    }, {
+      label: 'View',
+      submenu: [{
+        label: 'Show/Hide Toolbar',
+        checked: true,
+        type: 'checkbox',
+        click: changeViewCallback
       }]
     }, {
       label: 'Edit',

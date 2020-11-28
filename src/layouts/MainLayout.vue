@@ -1,16 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header elevated v-if="displayToolbar">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
         <q-toolbar-title>
           Quasar App
         </q-toolbar-title>
@@ -19,63 +10,40 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      behavior="desktop"
-      v-model="leftDrawerOpen"
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label
-          header
-          class="text-grey-8"
-        >
-          Navigation
-        </q-item-label>
-        <RouterLink
-          @click="leftDrawerOpen = false"
-          v-for="link in routerLinks"
-          :key="link.title"
-          :link="link.link"
-          :title="link.title"
-        />
-      </q-list>
-    </q-drawer>
-
     <q-page-container>
-      <router-view />
+      <router-view/>
     </q-page-container>
+
   </q-layout>
 </template>
 
 <script>
-import RouterLink from 'components/RouterLink.vue'
-
-const linksData = [
-  {
-    title: 'Markdown',
-    caption: 'Markdown page',
-    icon: 'school',
-    link: 'markdown'
-  },
-  {
-    title: 'Epub',
-    caption: 'Epub page',
-    icon: 'school',
-    link: 'epub'
-  }
-]
 
 export default {
   name: 'MainLayout',
   components: {
-    RouterLink
   },
   data () {
     return {
-      leftDrawerOpen: false,
-      routerLinks: linksData
+      displayToolbar: true
     }
+  },
+  methods: {
+    toggleToolbar (event, toggleRequest) {
+      this.displayToolbar = toggleRequest.checked;
+    }
+  },
+  mounted () {
+    window.ipcRenderer.on('show-hide-toolbar', this.toggleToolbar);
+  },
+  beforeDestroy () {
+    window.ipcRenderer.removeListener('show-hide-toolbar', this.toggleToolbar);
   }
 }
 </script>
+
+<style scoped>
+.q-layout, .q-page-container{
+  height: 100%;
+}
+</style>

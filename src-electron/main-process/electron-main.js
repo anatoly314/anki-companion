@@ -28,6 +28,13 @@ function __changeModeCallback (mode) {
   mainWindow.webContents.send('route-change-request', navigationRequest);
 }
 
+function __changeViewCallback (view) {
+  const toggleRequest = {
+    checked: view.checked
+  }
+  mainWindow.webContents.send('show-hide-toolbar', toggleRequest);
+}
+
 function createWindow () {
   /**
    * Initial window options
@@ -53,7 +60,7 @@ function createWindow () {
     mainWindow = null
   })
 
-  const menuTemplate = createMenuTemplate(__changeModeCallback);
+  const menuTemplate = createMenuTemplate(__changeModeCallback, __changeViewCallback);
   menu = Menu.buildFromTemplate(menuTemplate)
   Menu.setApplicationMenu(menu)
 }
