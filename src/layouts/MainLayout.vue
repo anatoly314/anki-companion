@@ -2,18 +2,17 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated v-if="displayToolbar">
       <q-toolbar>
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <slot name="header"></slot>
       </q-toolbar>
     </q-header>
 
     <q-page-container>
-      <router-view/>
+      <slot/>
     </q-page-container>
 
+    <q-footer>
+      <slot name="footer"></slot>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -31,6 +30,9 @@ export default {
   methods: {
     toggleToolbar (event, toggleRequest) {
       this.displayToolbar = toggleRequest.checked;
+      this.$nextTick(() => {
+        window.dispatchEvent(new Event('resize'));
+      })
     }
   },
   mounted () {

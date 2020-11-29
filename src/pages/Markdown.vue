@@ -1,4 +1,5 @@
 <template>
+  <MainLayout>
   <q-page class="flex column">
     <q-tabs
       v-model="tab"
@@ -30,11 +31,14 @@
     </q-tab-panels>
 
   </q-page>
+  </MainLayout>
 </template>
 
 <script>
+import MainLayout from 'layouts/MainLayout'
 export default {
   name: 'PageIndex',
+  components: { MainLayout },
   data () {
     return {
       tab: 'cards'

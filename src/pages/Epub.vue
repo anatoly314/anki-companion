@@ -1,16 +1,28 @@
 <template>
-  <q-page class='flex flex-center' style="height: 100%;">
-    <div ref="bookarea" id="bookarea"></div>
-    <div class="book-controls">
-      <button @click="expose">Expose</button>
-      <button @click="next">Next</button>
+  <MainLayout>
+    <div slot="header">Footer Here</div>
+
+    <div slot="default" style="height: 100%">
+      <q-page class='flex flex-center' style="height: 100%;">
+        <div ref="bookarea" id="bookarea"></div>
+      </q-page>
     </div>
-    <slot name="footer"></slot>
-  </q-page>
+
+    <div slot="footer">
+      <div class="book-controls">
+        <button @click="expose">Expose</button>
+        <button @click="renditionAction('prev')">Prev</button>
+        <button @click="renditionAction('next')">Next</button>
+        <button @click="resizeBook">Resize</button>
+      </div>
+    </div>
+
+  </MainLayout>
 </template>
 
 <script>
 import ePub from 'epubjs';
+import MainLayout from 'layouts/MainLayout';
 
 export default {
   name: 'Epub',
@@ -31,8 +43,10 @@ export default {
       // console.log('book', this.book);
       // console.log('displayed', this.displayed);
     },
-    next () {
-      this.rendition.next();
+    renditionAction (action) {
+      if (this.rendition) {
+        this.rendition[action]();
+      }
     },
     registerHooks () {
       this.rendition.hooks.content.register((contents, view) => {
@@ -83,6 +97,9 @@ export default {
       }
     }
   },
+  components: {
+    MainLayout
+  },
   mounted () {
     console.log('mounted');
     window.ipcRenderer.on('open-file-reply', this.createBook);
@@ -104,7 +121,6 @@ export default {
   display: flex;
 }
 .book-controls{
-  background-color: red;
   width: 100%;
   display: flex;
   flex-direction: row;
