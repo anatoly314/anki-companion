@@ -30,7 +30,8 @@ function __changeModeCallback (mode) {
 
 function __changeViewCallback (view) {
   const toggleRequest = {
-    checked: view.checked
+    checked: view.checked,
+    element: view.__element
   }
   mainWindow.webContents.send('show-hide-toolbar', toggleRequest);
 }

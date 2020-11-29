@@ -42,10 +42,29 @@ export function createMenuTemplate (changeModeCallback, changeViewCallback) {
     }, {
       label: 'View',
       submenu: [{
-        label: 'Show/Hide Toolbar',
+        label: 'Show/Hide Header',
         checked: true,
         type: 'checkbox',
-        click: changeViewCallback
+        click: changeViewCallback,
+        __element: 'header'
+      }, {
+        label: 'Show/Hide Footer',
+        checked: true,
+        type: 'checkbox',
+        click: changeViewCallback,
+        __element: 'footer'
+      }, {
+        label: 'Show/Hide Left Drawer',
+        checked: true,
+        type: 'checkbox',
+        click: changeViewCallback,
+        __element: 'leftDrawer'
+      }, {
+        label: 'Show/Hide Right Drawer',
+        checked: true,
+        type: 'checkbox',
+        click: changeViewCallback,
+        __element: 'rightDrawer'
       }]
     }, {
       label: 'Edit',

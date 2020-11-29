@@ -67,6 +67,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'prefer-promise-reject-errors': 'off',
     'no-trailing-spaces': 'off',
+    'no-extend-native': 'off',
 
 
     // allow debugger during development only
