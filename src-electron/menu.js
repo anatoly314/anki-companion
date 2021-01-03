@@ -38,6 +38,12 @@ export function createMenuTemplate (changeModeCallback, changeViewCallback) {
         click: changeModeCallback,
         __route: 'markdown'
 
+      }, {
+        label: 'PDF',
+        type: 'radio',
+        click: changeModeCallback,
+        __route: 'pdf'
+
       }]
     }, {
       label: 'View',

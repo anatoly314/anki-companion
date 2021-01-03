@@ -17,6 +17,11 @@ const routes = [
     component: () => import('pages/Markdown.vue')
   },
   {
+    path: '/pdf',
+    name: 'pdf',
+    component: () => import('pages/Pdf.vue')
+  },
+  {
     path: '*',
     component: () => import('pages/Error404.vue')
   }
